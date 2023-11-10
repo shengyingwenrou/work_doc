@@ -1,0 +1,24 @@
+https://blog.csdn.net/weixin_42471170/article/details/117694863
+
+@AssertFalse：用于boolean字段，该字段只能为true
+@AssertTrue：用于boolean字段，该字段只能为false
+@DecimalMax（value=x）：验证注解的元素值小于等于@ DecimalMax指定的value值
+@DecimalMin（value=x）：验证注解的元素值大于等于@ DecimalMin指定的value值
+@Digits(integer=整数位数, fraction=小数位数)：验证注解的元素值的整数位数和小数位数上限
+@Email：验证注解的元素值是Email，也可以通过正则表达式和flag指定自定义的email格式
+@Future(integer=整数位数, fraction=小数位数)：验证注解的元素值（日期类型）比当前时间晚
+@FutureOrPresent(integer=整数位数, fraction=小数位数)：验证注解的元素值（日期类型）比当前时间晚或者等于当前时间
+@Max（value=x）：验证注解的元素值小于等于@Max指定的value值
+@Min（value=x）：验证注解的元素值大于等于@Max指定的value值
+@Negative：
+@NegativeOrZero：
+@NotBlank：验证注解的元素值不为空（不为null、去除首位空格后长度为0），不同于@NotEmpty，@NotBlank只应用于字符串且在比较时会去除字符串的空格
+@NotEmpty：验证注解的元素值不为null且不为空（字符串长度不为0、集合大小不为0）
+@NotNull：验证注解的元素值不是null
+@Null：验证注解的元素值是null
+@Past：验证注解的元素值（日期类型）比当前时间早
+@PastOrPresent：验证注解的元素值（日期类型）比当前时间早或等于现在
+@Pattern（regex=正则表达式, flag=）：验证注解的元素值与指定的正则表达式匹配
+@Positive：
+@PositiveOrZero：
+@Size(min=最小值, max=最大值)：验证注解的元素值的在min和max（包含）指定区间之内，如字符长度、集合大小

@@ -1,0 +1,42 @@
+
+
+tar -xvzf otp_src_24.0.tar.gz  -C /usr/local/
+
+下载地址
+https://www.erlang.org/downloads
+
+###
+./configure --prefix=/usr/local/erlang  --with-ssl  -enable-threads -enable-smmp-support -enable-kernel-poll  --enable-hipe  --without-javac
+
+make && make install
+
+export PATH=$PATH:/usr/local/erlang/bin
+
+erl -v
+erl
+ssl:versions().
+halt().
+
+
+
+## 查看版本号 /usr/local/erlang/lib/erlang
+cat releases/24/OTP_VERSION
+
+## Erlang 卸载
+https://www.cnblogs.com/momo-88/p/13588736.html
+
+# 卸载erlang
+
+yum list | grep erlang
+yum -y remove erlang-*
+rm -rf /usr/lib64/erlang
+
+
+
+# 安装完成文本目录
+/usr/bin/install -c -m 644 "/usr/local/otp_src_23.3.4.3/OTP_VERSION" "/usr/local/erlang/lib/erlang/releases/23"
+cd /usr/local/erlang/bin
+
+# 实际ContOS7 MQ安装目录
+/usr/lib/rabbitmq/bin/rabbitmq-server
+

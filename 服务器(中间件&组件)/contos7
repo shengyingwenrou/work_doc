@@ -1,0 +1,31 @@
+## 关闭防火墙
+systemctl stop firewalld.service
+
+centos7永久关闭防火墙
+systemctl status firewalld.service  #查看当前防火墙状态
+systemctl stop firewalld.service  #关闭防火墙
+systemctl disable firewalld.service  永久关闭防火墙
+
+请求检测确认
+curl -X POST http://192.168.2.101:9001/getNewTime -d '{"name":"test1","desc":"test1","construct_type":1,"DtbDiskInfoList":[1,2,3,4],"sas_hotspare_strategy":"mid","nlsas_hotspare_strategy":"mid","ssd_hotspare_strategy":"mid"}'
+
+export LANG="en_US";export LANGUAGE="en_US";export LC_ALL="en_US";top
+
+
+# cron 配置
+shell> cat /etc/crontab
+SHELL=/bin/bash
+PATH=/sbin:/bin:/usr/sbin:/usr/bin
+MAILTO=root
+HOME=/
+
+# For details see man 4 crontabs
+
+# Example of job definition:
+# .---------------- minute (0 - 59)
+# |  .------------- hour (0 - 23)
+# |  |  .---------- day of month (1 - 31)
+# |  |  |  .------- month (1 - 12) OR jan, ...
+# |  |  |  |  .---- day of week (0 - 6) (Sunday=0 or 7) OR sun, ...
+# |  |  |  |  |
+# *  *  *  *  * user-name command to be executed

@@ -1,0 +1,20 @@
+卸载:
+(卸载所有openjdk)
+sudo apt-get remove openjdk*
+sudo tar zxvf apache-maven-3.8.1-bin.tar.gz -C /opt/maven
+
+JDK版本工具
+https://www.injdk.cn/
+
+
+/opt/jdk1.8/jdk1.8.0_141
+
+vi /etc/profile
+
+JAVA_HOME=/opt/jdk1.8/jdk1.8.0_141
+JRE_HOME=/opt/jdk1.8/jdk1.8.0_141/jre
+CLASS_PATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar:$JRE_HOME/lib
+PATH=$PATH:$JAVA_HOME/bin:$JRE_HOME/bin
+export JAVA_HOME JRE_HOME CLASS_PATH PATH
+
+source /etc/profile

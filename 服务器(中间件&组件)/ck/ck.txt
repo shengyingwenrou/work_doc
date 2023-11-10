@@ -1,0 +1,26 @@
+
+ck 语法
+官方参考地址:
+https://clickhouse.com/docs/zh/sql-reference/statements/alter/overview
+
+## int 转字符串
+ concat('\t',toString(o.id)) storeId,
+
+## 查询命名
+ if(a.status==1,'离职','在职') `在职状态`,
+
+## 表存在就删除
+ drop table if exists tmp_yuxi_staffInfo ;
+
+## 重命名
+ rename table qw_mmp_customer_cdp_tag_label1 to qw_mmp_customer_cdp_tag_label;
+
+## 查询插入
+ INSERT
+ 	INTO
+ 	qw_mmp_customer_cdp_tag_label
+
+  SELECT
+ 	*
+ FROM
+ 	qw_mmp_customer_cdp_tag_label_index;

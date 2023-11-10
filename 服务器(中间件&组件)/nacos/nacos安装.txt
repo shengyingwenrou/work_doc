@@ -1,0 +1,17 @@
+
+下包解压到指定目录
+tar -zxvf /mnt/share/nacos-server-2.0.1.tar.gz -C /usr/java/bin/
+
+注意事项:
+1.cluster.conf 需要copy一份
+2.配置application.properties 中数据库信息
+
+spring.datasource.platform=mysql
+。。。
+
+3.sh启动不了使用bash命令
+bash startup.sh;tail -f /lottery/nacos/logs/nacos.log
+
+
+4.配置同步
+sh nacos-config.sh -h 192.168.2.87 -p 8848 -g SEATA_GROUP  -u nacos -w nacos

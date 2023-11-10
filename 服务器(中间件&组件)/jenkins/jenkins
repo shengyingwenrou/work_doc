@@ -1,0 +1,114 @@
+
+下载地址:
+https://www.jenkins.io/download/
+
+启动脚本:
+java -jar jenkins.war --httpPort=9090 -DJENKINS_HOME=/opt/jenkins-workspace --logfile=/opt/jenkins-workspace/logs/jenkins.log &
+
+
+文件传输:
+###半自动化传输 192.168.2.87
+scp -P 22 -r /opt/jenkins-workspace/workspace/lottery-packege/*/target/*[admin,server,web].jar root@192.168.2.87:/lottery/app/
+
+###半自动化传输 192.168.2.101
+scp -P 22 -r /opt/jenkins-workspace/workspace/lottery-packege/*/target/*[admin,server,web].jar root@192.168.2.101:/usr/java/app
+test
+
+
+
+备用脚本:
+
+e375c5a83bb54a1599095a444e56bd92
+java -jar jenkins.war --httpPort=9090 -DJENKINS_HOME=/opt/jenkins-workspace --logfile=/opt/jenkins-workspace/logs/jenkins.log &
+java -jar jenkins.war --httpPort=9090 -DJENKINS_HOME=/data/jenkins --logfile=/data/jenkins/logs/jenkins.log > /dev/null
+This may also be found at: /root/.jenkins/secrets/initialAdminPassword
+
+
+e375c5a83bb54a1599095a444e56bd92
+java -jar jenkins.war --httpPort=9090 -DJENKINS_HOME=/opt/jenkins-workspace --logfile=/opt/jenkins-workspace/logs/jenkins.log &
+java -jar jenkins.war --httpPort=9090 -DJENKINS_HOME=/data/jenkins --logfile=/data/jenkins/logs/jenkins.log > /dev/null
+This may also be found at: /root/.jenkins/secrets/initialAdminPassword
+
+
+java -jar jenkins.war --httpPort=9090 --logfile=/opt/jenkins-workspace/logs/jenkins.log & ;tail -f /opt/jenkins-workspace/logs/jenkins.log
+/opt/jenkins-workspace/logs
+
+环境变量设置jenkins工作目录
+export JENKINS_HOME=/opt/jenkins-workspace
+
+配置文本
+clean package -Dmaven.test.skip=true -Dmaven.test.skip
+H 8 * * *
+
+java -jar /data/jenkins/app/jenkins.war -DJENKINS_HOME=/data/jenkins --logfile=/data/jenkins/logs/jenkins.log > /dev/null" &
+
+脚本解释（拷贝请删除注释）:
+
+# 解决jar执行不了的bug
+source /etc/profile
+
+# 进入jar的目录
+cd /usr/java
+
+# 搜索到当前正在执行的jar并停止他的执行
+ps -ef|grep unionproject.jar|grep -v grep|awk '{print $2}'|xargs kill -s 9
+
+# 解决jar执行不了的bug
+BUILD_ID=dontKillMe
+
+# 执行jar
+nohup java -jar unionproject.jar > unionproject_log.file 2>&1 &
+
+脚本一:
+source /etc/profile
+cd /lottery/app
+ps -ef|grep lottery-ams-admin.jar|grep -v grep|awk '{print $2}'|xargs kill -s  9
+BUILD_ID=dontKillMe
+nohup java -jar lottery-ams-admin.jar > lottery-ams-admin_log.file 2>&1 &
+
+脚本二:
+source /etc/profile
+cd /lottery/app
+ps -ef|grep lottery-ams-server.jar|grep -v grep|awk '{print $2}'|xargs kill -s 9
+BUILD_ID=dontKillMe
+java -jar lottery-ams-server.jar >lottery-ams-server.log  &
+
+ps -ef|grep lottery-ams-admin.jar|grep -v grep|awk '{print $2}'
+
+脚本三:
+#!/bin/bash
+#判断进程是否存在，如果不存在就启动它如果存在就重启它
+PIDS=`ps -ef |grep testcode.jar |grep -v grep | awk '{print $2}'`
+if [ "$PIDS" != "" ]; then
+	kill -9 $PIDS
+fi
+
+
+
+## 本机文件远程传输到X机器
+scp -P 22 -r xxx xxx  root@192.168.2.102:/mnt/share
+## 本机远程拷贝X机器文件
+scp -r root@192.168.2.87:/lottery/tar/jenkins.war /mnt/share
+
+
+#ps -ef | grep testcode.jar | grep -v grep | awk '{print $2}' | xargs kill -9
+cd /var/lib/jenkins/jobs/my-project/workspace/starter/target
+nohup java -jar lottery-ams-admin.jar lottery-ams-admin_log.log 2>&1 &
+nohup java -jar lottery-ams-admin.jar >/dev/null 2>&1 &
+java -jar lottery-ams-admin.jar
+
+
+添加执行权限
+chmod a+x publish.sh
+
+项目文件备份
+[JENKINS] Archiving /root/.jenkins/workspace/Lottery打包/lottery-fms-web/target/lottery-fms-web.jar to com.lottery/lottery-fms-web/1.0.0/lottery-fms-web-1.0.0.jar
+
+
+文件传输:
+###半自动化传输 192.168.2.87
+scp -P 22 -r /opt/jenkins-workspace/workspace/lottery-packege/*/target/*[admin,server,web].jar root@192.168.2.87:/lottery/app/
+
+###半自动化传输 192.168.2.101
+scp -P 22 -r /opt/jenkins-workspace/workspace/lottery-packege/*/target/*[admin,server,web].jar root@192.168.2.101:/usr/java/app
+123456

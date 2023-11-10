@@ -1,0 +1,57 @@
+
+## 重启
+service mysqld restart
+systemctl restart mysql
+
+## 登录
+mysql -uroot -p123456
+
+rpm -ivh mysql-community-libs-8.0.13-1.el7.x86_64.rpm --nodeps --force
+
+rpm -qa | grep mysql
+
+## 查看安装的mysql yun文件
+rpm -qa |grep -i mysql
+## 清理
+rpm -e --nodeps mysql-community-common-8.0.13-1.el7.x86_64
+## 安装
+rpm -ivh mysql-community-devel-8.0.13-1.el7.x86_64.rpm
+
+
+mysql-8.0.13-1.el7.x86_64.rpm-bundle.tar
+mysql-community-client-8.0.13-1.el7.x86_64.rpm
+mysql-community-common-8.0.13-1.el7.x86_64.rpm
+mysql-community-devel-8.0.13-1.el7.x86_64.rpm
+mysql-community-embedded-compat-8.0.13-1.el7.x86_64.rpm
+mysql-community-libs-8.0.13-1.el7.x86_64.rpm
+mysql-community-libs-compat-8.0.13-1.el7.x86_64.rpm
+mysql-community-server-8.0.13-1.el7.x86_64.rpm
+mysql-community-test-8.0.13-1.el7.x86_64.rpm
+
+踩坑环境依赖:
+compat-openssl10-1.0.2o-3.el8.x86_64.rpm
+
+/etc/init.d/mysqld start
+
+service mysqld start
+service mysqld status
+service mysqld stop
+
+/bin/systemctl start mysqld.service
+
+## 先重设下密码
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'S123456789!';
+## 降低密码级别
+SHOW VARIABLES LIKE 'validate_password%';
+set global validate_password.policy=LOW;
+set global validate_password.length=6;
+## 重新设置简单密码
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '123456';
+
+## 开放权限
+use mysql;
+SELECT user, host from mysql.user;
+update user set host='%' where user='root';
+
+tcpdump port 3306
+

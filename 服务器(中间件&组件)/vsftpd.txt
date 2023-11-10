@@ -1,0 +1,17 @@
+1.查看是否安装vsftpd
+rpm -qa | grep vsftpd
+
+2.Redirecting to /bin/systemctl start vsftpd.service
+启动:
+/bin/systemctl start vsftpd.service
+
+状态查看:
+/bin/systemctl status vsftpd.service
+
+# 端口查看
+netstat -tupln |grep vsftp
+
+解决办法：所以，我们可以在配置文件vsftpd.conf中，给vsftpd服务设置一个用于被动模式的端口范围，如下：
+pasv_min_port=30000
+pasv_max_port=30010
+

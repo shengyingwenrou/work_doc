@@ -1,0 +1,68 @@
+安装地址:
+https://www.cnblogs.com/fengyumeng/p/11133924.html
+
+## erlang与rabbitmq版本安装对应关系
+https://www.rabbitmq.com/which-erlang.html
+
+### 找到版本对应关系后下载对应版本,下载地址(ex:rabbitmq-server-3.8.17-1.el8.noarch.rpm)
+https://github.com/rabbitmq/rabbitmq-server
+
+## 安装rabbitmq
+rpm -ivh rabbitmq-server-3.6.9-1.el7.noarch.rpm
+rpm -ivh --nodeps --force rabbitmq-server-3.7.4-1.el7.noarch.rpm
+
+快速添加环境变量
+echo 'export PATH=$PATH:/usr/local/erlang/bin' >> /etc/profile
+source /etc/profile
+
+踩坑记录:
+## 强制安装
+rpm -ivh --nodeps --force rabbitmq-server-3.7.4-1.el7.noarch.rpm
+## 手动指定erlang环境
+1.通过 find -name rabbitmq-server 找到实际的安装目录
+vi /usr/lib/rabbitmq/bin/rabbitmq-server
+
+2.添加erlang环境目录
+ERLANG_HOME=/usr/local/erlang
+export PATH=$PATH:$ERLANG_HOME/bin
+
+安装教程:
+https://www.cnblogs.com/fengyumeng/p/11133924.html
+
+开启web插件 (http://127.0.0.1:15672/)
+rabbitmq-plugins enable rabbitmq_management
+查看所有用户
+rabbitmqctl list_users
+添加一个用户
+rabbitmqctl add_user zhaobl 123456
+配置权限
+rabbitmqctl set_permissions -p "/" zhaobl ".*" ".*" ".*"
+查看用户权限
+rabbitmqctl list_user_permissions zhaobl
+设置tag
+rabbitmqctl set_user_tags zhaobl administrator
+删除用户（安全起见，删除默认用户）
+rabbitmqctl delete_user guest
+
+# 卸载RabbitMQ
+yum list | grep rabbitmq
+yum -y remove rabbitmq-server.noarch
+
+### openssl配置
+./configure --with-ssl=/usr/bin/openssl --prefix=/usr/local/erlang/
+./configure --with-ssl=/usr/local/openssl --prefix=/usr/local/erlang
+
+
+### 命令行
+[root@k8smaster rabbitmq]# systemctl start rabbitmq-server.service
+[root@k8smaster rabbitmq]# systemctl status rabbitmq-server.service
+
+
+
+安装依赖环境
+yum install ncurses-devel
+
+
+
+注释:
+192.168.2.87 ubentu系统不同于CentOS  find -name rabbitmq-server

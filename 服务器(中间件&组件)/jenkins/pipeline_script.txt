@@ -1,0 +1,77 @@
+pipeline {
+    //选择所有主机
+    agent any
+    //jenkins配置环境，必须在全局工具配置配置好才能使用
+  parameters {
+    gitParameter branchFilter: 'origin/(.*)', defaultValue: 'master', name: 'BRANCH', type: 'PT_BRANCH'
+    string defaultValue: '', description: '测试计划名称', name: 'planName', trim: false
+  }
+    tools {
+      jdk 'JDK8'
+      maven 'maven3.6'
+    }
+  environment {
+     DOCKER_CREDENTIAL_ID = 'harbor-id'
+    GITLAB_CREDENTIAL_ID = 'gitlab-id'
+    KUBECONFIG_CREDENTIAL_ID = 'kubeconfig1'   //k8s环境
+    REGISTRY = 'qw-prd-acr-registry.cn-shenzhen.cr.aliyuncs.com'   //harbor域名
+    HARBOR_NAMESPACE = 'quchengshi'    //harbor命名空间
+    APP_NAME = 'new-configuration-center-uat'   //构建服务名
+    BRANCH_NAME2 = 'test'    //分支名
+    image_name = "$REGISTRY/$HARBOR_NAMESPACE/$APP_NAME:$BRANCH_NAME2-$BUILD_NUMBER"  //镜像版本
+   }
+    //任务集合,一个大的任务
+    stages {
+        stage('获取代码') {
+            steps {
+                  git branch: "${params.BRANCH}", credentialsId: 'gitlab-id',url: 'https://git.01lb.vip/enterprise-wechat-saas/configuration-project.git'
+                }
+            }
+        stage('代码构建') {
+            steps {
+                 sh label: '', script: 'mvn clean package -U -Dmaven.test.skip=true'
+                }
+            }
+        stage('构建镜像 && 推送镜像') {
+            steps {
+                sh 'sudo docker build --no-cache -f dockerfiles/Dockerfile_configuration_test -t $REGISTRY/$HARBOR_NAMESPACE/$APP_NAME:$BRANCH_NAME2-$BUILD_NUMBER .'
+                withCredentials([usernamePassword(passwordVariable : 'DOCKER_PASSWORD' ,usernameVariable : 'DOCKER_USERNAME' ,credentialsId : "$DOCKER_CREDENTIAL_ID" ,)]) {
+                sh 'sudo echo "$DOCKER_PASSWORD" | sudo docker login $REGISTRY -u "$DOCKER_USERNAME" --password-stdin'
+                sh 'sudo docker push  $REGISTRY/$HARBOR_NAMESPACE/$APP_NAME:$BRANCH_NAME2-$BUILD_NUMBER'
+                }
+             }
+         }
+        stage('部署到K8S平台'){
+           steps {
+            sh "sed -i 's#{{IMAGE_URL}}#${image_name}#g' deploy/deploy-configuration-test.yaml"
+            kubernetesDeploy configs: 'deploy/deploy-configuration-test.yaml', kubeconfigId: "${KUBECONFIG_CREDENTIAL_ID}"
+           }
+         }
+        stage('检测服务是否启动') {
+                steps {
+                     sh "kubelog  rollout track -n quchengshi-test deployment configuration-center"
+                    }
+                }
+        stage('等待旧服务删除') {
+                steps {
+                     sh "sleep 30"
+                    }
+                }
+        stage('metersphere') {
+            steps {
+                meterSphere method: 'testPlanName',
+                mode: 'parallel',
+                msAccessKey: 'v4T6lcXeHlODRCEo',
+                msEndpoint: 'http://10.82.27.177:8081',
+                msSecretKey: 'uCWNqpqD42Eyugub',
+                projectId: 'bc99a36c-4274-4238-b49f-095471203856',
+                resourcePoolId: 'd0424629-d822-415b-a483-32e5631721be',
+                testCaseId: '',
+                testCaseName: '',
+                testPlanId: '',
+                testPlanName: '$planName',
+                workspaceId: 'fd018d2b-c9d1-4766-9174-c119d451301a'
+            }
+        }
+    }
+}

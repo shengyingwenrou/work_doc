@@ -1,0 +1,169 @@
+
+# 查看本地和远程仓库的所有分支
+git branch -a
+
+# 查看远程仓库的分支
+git branch -r
+
+
+# 本地同步全量远程已经删除后的所有分支
+git remote update origin --prune
+git remote prune origin
+
+#清理本地全部分支
+git branch | grep -v 'master' | xargs git branch -D
+
+#批量清理远程分支
+git branch -r|grep -v -E 'master|20221130' | awk -F 'origin/' '{print $2}' |xargs git push origin --delete
+
+
+#批量清理远程分支
+git branch -r|grep -v 'master' | xargs git push origin --delete
+git branch -r|grep -v 'master' | xargs git push origin --delete
+
+#过滤器_指定分支清理, 打印可直接清理的后缀
+git branch -r | awk -F 'origin/' '{print $2}'
+git branch -r|grep '20220119_wz' | awk -F 'origin/' '{print $2}' |xargs git push origin --delete
+
+#过滤器_指定分支后反向清理
+git branch -r|grep -v -E 'master' | awk -F 'origin/' '{print $2}' |xargs git push origin --delete
+git branch -r|grep -v -E 'master|20220223_weekdev_uat|' | awk -F 'origin/' '{print $2}' |xargs git push origin --delete
+git branch -r|grep -v -E 'master|develop|20220413' | awk -F 'origin/' '{print $2}' |xargs git push origin --delete
+
+git branch -r|grep -v 'master' | xargs git push origin --delete
+git branch -r|grep -v -E 'master' | awk -F 'origin/' '{print $2}' |xargs git push origin --delete
+
+#直接批量删除远程分支
+git push origin --delete path1 path2
+
+git branch -r
+  origin/HEAD -> origin/master
+  origin/branch/feature/20220119_yuxi_tag
+  origin/branch/release/20220119_release
+  origin/master
+
+example:
+git push origin --delete branch/feature/20220223_songdewei
+
+
+# 正则批量删除，可参考
+git branch --all | awk '/branch_20180[1-5]{1}/{print}' | xargs git push origin --delete
+git tag -l | awk '/tag_20180[1-5]{1}/{print}' | xargs git push origin --delete tag
+
+git branch -r| grep -v -E 'master|develop' | sed 's/origin\///g' | xargs -I {} git push origin :{}
+
+git branch -r|grep 'xxx' |xargs git branch -D :{}
+
+git branch -r|grep -v -E 'master|20220223_weekdev_uat|/20220211_refactor-gateway' | xargs -I {} git push origin :{}
+
+git branch -r|grep '20220119_wz' |xargs git branch -D
+
+...
+
+批量删除git 本地分支、远程分支、tag
+批量删除本地分支
+git branch -a | grep -v -E 'master|develop' | xargs git branch -D
+
+#查看电脑B本地仓库的分支
+git branch
+
+参见《https://www.jianshu.com/p/bc64f0adf9ca》
+批量删除远程分支
+git branch -r| grep -v -E 'master|develop' | sed 's/origin\///g'
+git push origin --delete 分支名称(origin后开始)
+
+
+
+
+# 清理已经删除分支
+git remote update origin --prune
+git remote prune origin
+
+# 批量删除分支名带feature本地分支
+git branch -a | grep feature | xargs git branch -D
+
+如果有些分支无法删除，是因为远程分支的缓存问题，可以使用git remote prune
+
+批量删除本地tag
+git tag | xargs -I {} git tag -d {}
+
+批量删除远程tag
+git tag | xargs -I {} git push origin :refs/tags/{}
+
+用到命令说明
+grep -v -E 排除master 和 develop
+
+-v 排除
+-E 使用正则表达式
+
+xargs 将前面的值作为参数传入 git branch -D 后面
+
+-I {} 使用占位符 来构造 后面的命令
+
+
+
+
+#将本地分支与远程保持同步
+git fetch
+
+#拉取远程分支并同时创建对应的本地分支
+git checkout -b 本地分支名x origin/远程分支名x
+
+#首先同步所有远程分支,如下:
+git branch -r | grep -v '\->' | while read remote; do git branch --track "${remote#origin/}" "$remote"; done
+
+#将本地所有分支与远程保持同步
+git fetch --all
+
+#最后拉取所有分支代码
+git pull --all
+
+
+
+删除本地分支
+git branch -d 分支名称
+
+
+
+
+# 查看项目下所有分支
+git branch
+git branch -a
+git branch -D [1] [2] [3]
+
+
+## 分支回滚
+git log
+git log --pretty=oneline   版本头
+git reset --hard 8d722bb6e976f255f9c4c1bf9233c386d69ca5ed
+
+
+## 初始化账号
+Git global setup
+git config --global user.name "宋德伟"
+git config --global user.email "songdewei@01lb.com.cn"
+
+
+Create a new repository
+git clone http://git.01lb.vip/songdewei/log.git
+cd log
+touch README.md
+git add README.md
+git commit -m "add README"
+git push -u origin master
+
+Push an existing folder
+cd existing_folder
+git init
+git remote add origin http://git.01lb.vip/songdewei/log.git
+git add .
+git commit -m "Initial commit"
+git push -u origin master
+
+Push an existing Git repository
+cd existing_repo
+git remote rename origin old-origin
+git remote add origin http://git.01lb.vip/songdewei/log.git
+git push -u origin --all
+git push -u origin --tags
+

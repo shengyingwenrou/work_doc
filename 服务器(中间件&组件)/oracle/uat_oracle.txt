@@ -1,0 +1,34 @@
+select * from ITF_WDC2EPW_MEMBER ORDER BY CARD_NO limit 1;
+
+
+ select * from (
+        select * from ds_target.ITF_WDC2EPW_MEMBER
+        where UPDATE_DATE >= to_date(#{'2023-08-10 00:00:00'},'yyyymmdd') and UPDATE_DATE < to_date(#{'2023-08-11 00:00:00'},'yyyymmdd')
+          and CARD_NO >= #{offset}
+        order by CARD_NO
+    ) a
+ where ROWNUM &lt;= ${limit}
+ 
+ 
+ 
+  select * from (
+        select * from ds_target.ITF_WDC2EPW_MEMBER
+        where UPDATE_DATE >= to_date('20230810','yyyymmdd') and UPDATE_DATE < to_date('20230811','yyyymmdd')
+          and CARD_NO >= '0'
+        order by CARD_NO
+    ) a
+ where ROWNUM <=5000
+ 
+ 
+ SELECT COUNT(UNION_ID) FROM ds_target.ITF_WDC2EPW_MEMBER;
+ 
+ 
+ SELECT * FROM ds_target.ITF_WDC2EPW_MEMBER ORDER BY CARD_NO DESC FETCH FIRST 10 ROWS ONLY;
+
+
+SELECT * FROM USER_TAB_COLUMNS
+
+DESCRIBE ITF_WDC2EPW_MEMBER
+
+select * from user_tab_columns where table_name='ITF_WDC2EPW_MEMBER';
+ 

@@ -1,0 +1,21 @@
+﻿F:\bin下实验
+
+1.zk安装
+https://www.jianshu.com/p/0447ab3dfd5b
+
+2.备用文本
+# 修改clientPort(2181,2182,2183),dataDir，按照路径，每个节点不一样
+clientPort=2181
+# 集群每个节点不一样
+dataDir=E:/citsgbt-hotel/zookeeper_cluster/zookeeper/data
+# 添加集群配置
+server.0=localhost:2888:3888
+server.1=localhost:2889:3889
+server.2=localhost:2890:3890
+
+
+3.ZooInspector使用脚本
+java -jar zookeeper-dev-ZooInspector.jar
+
+
+

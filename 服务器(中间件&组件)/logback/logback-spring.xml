@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration scan="true" scanPeriod="60 seconds" debug="false">
+
+	<include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
+
+	<property name="log.path" value="logs"/>
+
+	<contextName>lottery-ams-admin</contextName>
+
+	<property resource="application.yml" />
+	<property resource="application.properties" />
+
+<!--	<springProperty scope="context" name="root_path" source="logging.path"/>-->
+	<springProperty scope="context" name="fw" source="spring.application.name"/>
+<!--	<springProperty scope="context" name="node" source="server.port"/>-->
+<!--	<springProperty scope="context" name="history" source="logging.history"/>-->
+	
+	<appender name="taskLog"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${log.path}/${fw}/log_task.log</file>
+		<!-- 日志记录器的滚动策略，按日期，按大小记录 -->
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${log.path}/${fw}/log-task-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+			<timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>100MB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+			<maxHistory>10</maxHistory>
+		</rollingPolicy>
+
+		<append>true</append>
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %highlight(%-5level) %logger Line:%-3L - %msg%n</pattern>
+			<charset>utf-8</charset>
+		</encoder>
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>debug</level>
+		</filter>
+	</appender>
+
+	<!-- 收到消息后分析用户数据业务日志 -->
+	<appender name="mqLog"
+			  class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${log.path}/${fw}/log_mq.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${log.path}/${fw}/log-mq-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+			<timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>100MB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+			<maxHistory>10</maxHistory>
+		</rollingPolicy>
+		<append>true</append>
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %highlight(%-5level) %logger Line:%-3L - %msg%n</pattern>
+			<charset>utf-8</charset>
+		</encoder>
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>info</level>
+		</filter>
+	</appender>
+	
+	<appender name="httpRequestLog"
+			  class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${log.path}/${fw}/log_http.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${log.path}/${fw}/log-http-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+			<timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>100MB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+			<maxHistory>10</maxHistory>
+		</rollingPolicy>
+		<append>true</append>
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %highlight(%-5level) %logger Line:%-3L - %msg%n</pattern>
+			<charset>utf-8</charset>
+		</encoder>
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>info</level>
+		</filter>
+	</appender>
+
+	<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %highlight(%-5level) %logger Line:%-3L - %msg%n</pattern>
+			<charset>utf-8</charset>
+		</encoder>
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>debug</level>
+		</filter>
+	</appender>
+
+	<logger name="org.hibernate" level="WARN" />
+	<logger name="org.springframework" level="WARN" />
+
+	<logger name="com.zaxxer.hikari" level="INFO" />
+	<logger name="org.apache.http" level="INFO" />
+	<logger name="logging.level.io.seata" level="INFO"/>
+	<logger name="com.alibaba.nacos" level="INFO" />
+	<logger name="org.apache.shiro" level="INFO"/>
+	<logger name="io.lettuce.core" level="INFO"/>
+	<logger name="io.netty" level="INFO"/>
+
+	<logger name="com.lottery.ams" level="debug"/>
+	<logger name="com.mysql.jdbc" level="debug" />
+
+	<logger name="httpRequestLog" additivity="false" level="INFO">
+		<appender-ref ref="httpRequestLog"/>
+	</logger>
+
+	<logger name="taskLog" additivity="false" level="INFO">
+		<appender-ref ref="taskLog"/>
+	</logger>
+
+	<logger name="mqLog" additivity="false" level="INFO">
+		<appender-ref ref="mqLog"/>
+	</logger>
+
+
+	<!-- 生产环境下，将此级别配置为适合的级别，以免日志文件太多或影响程序性能 -->
+	<root level="debug">
+		<!-- 生产环境将请stdout,testfile去掉 -->
+		<appender-ref ref="CONSOLE" />
+	</root>
+</configuration>

@@ -1,0 +1,19 @@
+2022-01-20T07:53:40.523339667+08:00 #
+2022-01-20T07:53:40.523347878+08:00 # A fatal error has been detected by the Java Runtime Environment:
+2022-01-20T07:53:40.523350802+08:00 #
+2022-01-20T07:53:40.523352925+08:00 # SIGSEGV (0xb) at pc=0x00007fc4b9d11a85, pid=7, tid=31
+2022-01-20T07:53:40.523355042+08:00 #
+2022-01-20T07:53:40.523357465+08:00 # JRE version: OpenJDK Runtime Environment 18.9 (11.0.8+10) (build 11.0.8+10)
+2022-01-20T07:53:40.523363839+08:00 # Java VM: OpenJDK 64-Bit Server VM 18.9 (11.0.8+10, mixed mode, tiered, compressed oops, g1 gc, linux-amd64)
+2022-01-20T07:53:40.523366447+08:00 # Problematic frame:
+2022-01-20T07:53:40.525037129+08:00 # V [libjvm.so+0x7a7a85] void G1ParCopyClosure<(G1Barrier)0, (G1Mark)1>::do_oop_work<unsigned int>(unsigned int*)+0x265
+2022-01-20T07:53:40.525041607+08:00 #
+2022-01-20T07:53:40.525043915+08:00 # Core dump will be written. Default location: /ems/core.7
+2022-01-20T07:53:40.525046629+08:00 #
+2022-01-20T07:53:40.525085305+08:00 # An error report file with more information is saved as:
+2022-01-20T07:53:40.525094365+08:00 # /ems/hs_err_pid7.log
+2022-01-20T07:53:40.548530003+08:00 #
+2022-01-20T07:53:40.548538050+08:00 # If you would like to submit a bug report, please visit:
+2022-01-20T07:53:40.548541143+08:00 # https://bugreport.java.com/bugreport/crash.jsp
+2022-01-20T07:53:40.548543658+08:00 #
+2022-01-20T07:54:00.847158399+08:00 Aborted (core dumped)

@@ -1,0 +1,245 @@
+
+// 文档的curd = https://www.cnblogs.com/meow-world/articles/16090141.html
+// 容错  https://blog.csdn.net/zhuchunyan_aijia/article/details/129465224
+
+
+//ES增加字段索引
+GET /{index}/_mapping  
+
+//ES给已有数据增加字段并且赋值(处理版本冲突)
+POST /{index}/_update_by_query?conflicts=proceed
+{
+    "script": {
+        "inline": "ctx._source.c1130279 = [];ctx._source.c1130280 = [];ctx._source.c1130281 = [];ctx._source.c1130282 = [];ctx._source.c1130283 = [];"
+    },
+    "query": {
+        "match_all": {}
+    }
+}
+
+ctx._source.remove('{field}')
+
+// ES增加字段语句
+PUT /{index}/_mapping
+ex1(uat):
+{
+  "properties": {
+    "c1130279": {
+      "type": "keyword",
+      "ignore_above": 256
+    },
+	"c1130280": {
+      "type": "keyword",
+      "ignore_above": 256
+    },
+	"c1130281": {
+      "type": "keyword",
+      "ignore_above": 256
+    },
+	"c1130282": {
+      "type": "keyword",
+      "ignore_above": 256
+    },
+	"c1130283": {
+      "type": "keyword",
+      "ignore_above": 256
+    }
+  }
+}
+
+
+ex2(prd):
+{
+  "properties": {
+    "c1300946": {
+      "type": "keyword",
+      "ignore_above": 256
+    },
+	"c1300944": {
+      "type": "keyword",
+      "ignore_above": 256
+    },
+	"c1300948": {
+      "type": "keyword",
+      "ignore_above": 256
+    },
+	"c1300949": {
+      "type": "keyword",
+      "ignore_above": 256
+    },
+	"c1300999": {
+      "type": "keyword",
+      "ignore_above": 256
+    }
+  }
+}
+
+ex2:
+{
+	"properties": {
+		"customize_cdp_tags": {
+			"type": "nested",
+			"properties": {
+				"c1130279": {
+					"type": "text",
+					"fields": {
+						"keyword": {
+							"type": "keyword",
+							"ignore_above": 256
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+
+// ES增加字段删除字段
+PUT /{index}/_mapping
+ex:强制删除字段包括 非nested
+{
+    "properties": {
+        "customize_cdp_tags": {
+          "type":"object",
+          "enabled": false
+        }
+    }
+}
+
+POST /customer_property_index/_update_by_query
+ex:强制删除字段包括 nested
+{
+    "script": {
+        "inline": "ctx._source.remove('{c1130279}')",
+		"lang": "painless"
+    },
+    "query": {
+        "match_all": {}
+    }
+}
+
+
+{
+	"properties": {
+		"customize_cdp_tags": {
+			"type": "nested",
+			"properties": {
+				"c1130279": {
+					"type": "text",
+					"fields": {
+						"keyword": {
+							"type": "keyword",
+							"ignore_above": 256
+						}
+					}
+				},
+				"c1130280": {
+					"type": "text",
+					"fields": {
+						"keyword": {
+							"type": "keyword",
+							"ignore_above": 256
+						}
+					}
+				},
+				"c1130281": {
+					"type": "text",
+					"fields": {
+						"keyword": {
+							"type": "keyword",
+							"ignore_above": 256
+						}
+					}
+				},
+				"c1130282": {
+					"type": "text",
+					"fields": {
+						"keyword": {
+							"type": "keyword",
+							"ignore_above": 256
+						}
+					}
+				},
+				"c1130283": {
+					"type": "text",
+					"fields": {
+						"keyword": {
+							"type": "keyword",
+							"ignore_above": 256
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+
+
+
+
+测试脚本:
+
+{
+        "from": 0,
+        "size": 20,
+        "query": {
+                "bool": {
+                        "must": [
+                                {
+                                        "term": {
+                                                "deleted": {
+                                                        "value": 0,
+                                                        "boost": 1.0
+                                                }
+                                        }
+                                },
+                                {
+                                        "nested": {
+                                                "query": {
+                                                        "term": {
+                                                                "ba_list.ba_id": {
+                                                                        "value": 1412752511002849280,
+                                                                        "boost": 1.0
+                                                                }
+                                                        }
+                                                },
+                                                "path": "ba_list",
+                                                "ignore_unmapped": false,
+                                                "score_mode": "none",
+                                                "boost": 1.0
+                                        }
+                                }
+                        ],
+                        "must": [
+                                {
+                                        "term": {
+                                                "c1300946": {
+                                                        "value": "透真(13838)",
+                                                        "boost": 1.0
+                                                }
+                                        }
+                                }
+                        ],
+                        "adjust_pure_negative": true,
+                        "boost": 1.0
+                }
+        },
+        "_source": {
+                "includes": [
+                        "customer_id",
+                        "union_id",
+                        "transaction_info",
+                        "cdp_tags"
+                ],
+                "excludes": []
+        },
+        "sort": [
+                {
+                        "_id": {
+                                "order": "desc"
+                        }
+                }
+        ]
+}

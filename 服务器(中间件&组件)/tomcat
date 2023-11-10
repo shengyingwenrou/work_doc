@@ -1,0 +1,1 @@
+sh startup.sh ;tail -f /opt/apache-tomcat-10.0.6/logs/localhost.2021-05-31.log

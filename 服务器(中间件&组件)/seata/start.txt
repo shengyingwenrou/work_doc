@@ -1,0 +1,25 @@
+脚本地址:
+https://github.com/seata/seata/blob/develop/script/server/db/mysql.sql
+https://github.com/seata/seata
+
+开始
+1.下载安装
+
+sh nacos-config.sh -h 192.168.2.87 -p 8848 -g SEATA_GROUP  -u nacos -w nacos
+
+2.启动
+chmod u+x xxx.sh
+nohup seata-server.sh >log.out 2>1 &
+sh seata-server.sh &
+nohup  ./bin/seata-server.sh -p 8091 -h 127.0.0.1 -m file  >log.out 2>1 &
+
+## 最终以下列脚本启动，因为client与server有netty外网交互
+sh seata-server.sh -p 8091 -h 192.168.2.87 -m file >log.out &
+
+
+## 资源地址
+SpringBoot：https://spring.io/projects/spring-boot
+Dubbo：http://dubbo.apache.org/en-us/
+Nacos：https://nacos.io/zh-cn/docs/quick-start.html
+Seata：https://github.com/seata/seata/wiki/Home_Chinese
+MyBatis：http://www.mybatis.org/mybatis-3/zh/index.html

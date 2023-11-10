@@ -1,0 +1,47 @@
+
+
+mvn clean package -U -Dmaven.test.skip=true
+
+mvn clean package -U -Dmaven.test.skip=true  强刷
+
+mvn dependency:tree --> tree.txt
+
+
+maven下载地址:
+https://maven.apache.org/download.cgi
+apache-maven-3.8.1-bin.tar.gz
+
+sudo tar zxvf nginx-1.18.0.tar.gz -C /xx/xxxxx
+
+maven环境设置
+export M2_HOME=/opt/maven/apache-maven-3.8.1
+export CLASSPATH=$CLASSPATH:$M2_HOME/lib
+export PATH=$PATH:$M2_HOME/bin
+
+
+
+nexus(maven repository)
+D:\Maven\.m2\repository，并执行mvn help:system，生成.m2目录
+
+
+打包不同的环境:
+
+1、编译跳过测试：
+mvn clean install -Dmaven.test.skip=true
+
+2、部署到远程Nexus
+mvn deploy -Dmaven.test.skip=true
+
+3、打包编译为不同的环境(jenkins配置)
+mvn clean install -Pdev -Dmaven.test.skip=true
+clean install -Pdev -Dmaven.test.skip=true
+
+
+4.本地单个清理后打包
+mvn clean install -rf :lottery-app-web
+clean package -P test -Dmaven.test.skip=true -Dmaven.test.skip
+
+
+
+
+

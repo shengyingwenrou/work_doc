@@ -1,0 +1,25 @@
+
+下载地址:
+https://redis.io/
+
+解压安装:
+redis-6.2.4.tar.gz
+
+ps -ef|grep redis
+
+/etc/init.d/redis-server stop
+/etc/init.d/redis-server start
+/etc/init.d/redis-server restart
+
+详细安装步骤:
+https://www.runoob.com/redis/redis-install.html
+
+
+sudo tar zxvf redis-6.2.4.tar.gz -C /xx/xxxxx
+
+https://e.coding.net/shengying/project-fw-document/project-fw-document.git
+
+/usr/local/bin
+redis-cli -h localhost -p 6379
+
+

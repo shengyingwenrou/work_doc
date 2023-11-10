@@ -1,0 +1,11 @@
+加速访问github，本地host中加入
+# github
+192.30.253.112 github.com
+151.101.184.133 assets-cdn.github.com
+151.101.185.194 github.global.ssl.fastly.net
+
+
+
+https://www.cnblogs.com/guohu/p/16407603.html
+
+https://tool.chinaz.com/dns/github.com

@@ -1,0 +1,33 @@
+
+nexus-3.30.1-01-unix.tar.gz
+
+sudo tar zxvf nexus-3.30.1-01-unix.tar.gz -C /opt/nexus
+
+
+
+chmod u+x nexus
+chmod 777 nexus
+
+开机执行
+./nexus start
+
+看执行状态
+./nexus status
+
+
+http://192.168.2.87:8081/
+
+
+项目中父节点 pom.xml 配置
+<distributionManagement>
+	<repository>
+	<!-- 此id 必须对应setting 里面到 server id 否则会没有权限无法部署 -->
+	<id>prod</id>
+	<name>Release Repository</name>
+	<url>http://192.168.2.87:8081/repository/lottery/</url>
+	</repository>
+</distributionManagement>
+
+
+参考网址:
+https://blog.csdn.net/weixin_43083074/article/details/106274829

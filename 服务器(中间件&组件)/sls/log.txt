@@ -1,0 +1,27 @@
+
+## 查询慢接口，次数统计
+RequestLogAop_rep_slowly |
+SELECT
+split_part(content,' result=',1) as uri,
+COUNT(1) AS pv
+GROUP BY
+  uri
+ORDER BY
+  pv DESC;
+
+
+## 查询慢接口记录
+RequestLogAop_rep_slowly |
+SELECT
+split_part(content,' result=',1) as uri,
+split_part(content,'cost=',2) as cost_time
+
+
+* |
+SELECT
+  time_series(__time__, '1d', '%Y-%m-%d %H:%i:%s', '0')  as time,
+  COUNT(1) AS pv
+GROUP BY
+  time
+ORDER BY
+  pv desc

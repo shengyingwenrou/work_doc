@@ -1,0 +1,31 @@
+
+热点命令行
+
+### 查询jar包进程杀掉进程
+ps -ef|grep lottery-ams-admin.jar|grep -v grep|awk '{print $2}'|xargs kill -s  9
+
+### 查询端口号进程
+lsof -i:5672|grep "LISTEN"|awk '{print $2}
+
+
+###  dos2unix脚本格式转换
+dos2unix  develop_contos7.sh
+
+### 清晰目录
+ps -ef|grep java
+ps --no-heading -C java -f --width 1000 | grep java
+ps --no-heading -C java -f --width 1000 | grep java |awk '{print $2}
+
+### 远程传输
+curl -X POST http://192.168.2.101:9001/getNewTime -d '{"name":"test1","desc":"test1","construct_type":1,"DtbDiskInfoList":[1,2,3,4],"sas_hotspare_strategy":"mid","nlsas_hotspare_strategy":"mid","ssd_hotspare_strategy":"mid"}'
+
+### 添加文件夹全部权限
+chmod 777 -R share
+
+
+# 搜索到当前正在执行的jar并停止他的执行
+ps -ef|grep unionproject.jar|grep -v grep|awk '{print $2}'|xargs kill -s 9
+
+
+# 计数
+ cat test.csv |grep request_log_rep|wc -l

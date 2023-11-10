@@ -1,0 +1,45 @@
+demp focus
+
+top
+ps -aux | sort -k4nr | head -n 10
+ps -mp 7 -o THREAD,tid,time|sort -rn|head -n 20
+printf "%x\n" 19
+jstack 7 | grep  13 -A  30
+jstat -gcutil 7 2000 10
+
+
+# 内存的使用情况
+cat /proc/meminfo
+
+free -m
+free -h  （G单位）
+
+# 查看进程的内存占用
+pidstat -r -p 24427 1 5
+
+
+ps -aux | sort -k4nr | head -n 10
+ps aux --sort -rss | head (最有效)
+top -c -b -o +%MEM | head -n 20 | tail -15 (最有效)
+ps -eo pid,ppid,%mem,%cpu,cmd --sort=-%mem | head
+ps -eo pid,ppid,%mem,%cpu,comm --sort=-%mem | head
+
+
+ps aux --sort -rss | head
+printf "%x\n" 7
+
+jstack 7 | grep 16 -A 30
+jstack 7 | grep 13 -A 30
+
+
+
+ps -mp 8 -o THREAD,tid,time|sort -rn|head -n 20
+printf "%x\n" 19
+jstack 13 | grep  13 -A  30
+jstat -gcutil 7 2000 10
+
+
+ps -mp 7 -o THREAD,tid,time|sort -rn|head -n 20
+printf "%x\n" 19
+jstack 13 | grep  13 -A  30
+jstat -gcutil 7 2000 10

@@ -1,0 +1,24 @@
+
+跳板机test
+http://10.83.1.1/ui/#/
+941381
+KEn8nNN220Q3xh47
+
+默认
+941381
+215912
+
+https://www.erp-qh.com/#/   这是我们云仓管理系统
+941381
+shengying1121
+
+
+http://wms_test.qihaiyun.cn/   这是WMS的测试环境
+
+
+svn
+songdewei   9BKIZyB1SgJVo36W
+http://10.83.4.101/svn/yuncang/wms/backEnd_code/trunk
+
+
+
